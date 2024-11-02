@@ -1,69 +1,97 @@
-/* Basic styling for the owner's dashboard */
-
+/* Owner Dashboard Styling */
 .owner-dashboard {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background: linear-gradient(to bottom, #f9f9f9, #f1f1f1);
-  }
-  
-  .dashboard-header {
-    color: #ff7a00;
-    text-align: center;
-    font-size: 1.8em;
-    font-weight: bold;
-    padding: 15px;
-    background: #fff;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .dashboard-section {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-  }
-  
-  .card {
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .gps-tracking {
-    font-size: 1.5em;
-  }
-  
-  .driver-camera-image {
-    margin-top: 10px;
-    width: 100%;
-    border-radius: 8px;
-  }
-  .navbar-brand{
-    color: #f1f1f1;
-    
-  }
-  .nav-link {
-    color: white !important;
-  }
-  
-  /* Small menu icon in top right for mobile view */
-
-  /* Custom styles for the navbar toggler */
-.custom-toggler {
-  color: white !important;
-  font-size: 0.8rem;  /* Smaller icon size */
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 0.25rem 0.5rem; /* Adjust padding for a compact look */
-  border: none;
-  background-color: transparent;
+  padding: 20px;
+  background: linear-gradient(to bottom, #f9f9f9, #f1f1f1);
 }
 
-/* White color for all nav links */
-.navbar .nav-link {
+.dashboard-header {
+  color: #ff7a00;
+  text-align: center;
+  font-size: 1.8em;
+  font-weight: bold;
+  padding: 15px;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1 1 45%;
+}
+
+.map-container {
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.driver-camera-image {
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.navbar-brand,
+.nav-link {
   color: white !important;
+}
+
+.hero-section {
+  text-align: center;
+  padding: 40px;
+  background-color: #ff7a00;
+  color: white;
+}
+
+.features-section {
+  padding: 40px 20px;
+  background-color: #f1f1f1;
+}
+
+.features-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.feature-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  flex: 1 1 45%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.get-started-button {
+  background-color: #ff7a00;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .dashboard-section,
+  .features-grid {
+    flex-direction: column;
+  }
+
+  .get-started-button {
+    width: 100%;
+  }
 }
