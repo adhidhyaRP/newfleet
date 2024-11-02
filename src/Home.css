@@ -166,3 +166,42 @@
     justify-content: center;
     padding: 1rem;
   }
+  /* Adjust navbar padding and toggler */
+.navbar {
+  padding: 1rem;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+/* Stack info cards vertically on smaller screens */
+@media (max-width: 768px) {
+  .info-cards {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Reduce hero section text size */
+  .hero-section h1 {
+    font-size: 1.5rem;
+  }
+  
+  .hero-section p {
+    font-size: 0.9rem;
+  }
+  
+  /* Adjust button padding */
+  .get-started-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+  }
+  
+  /* Map container adjustments for small screens */
+  .leaflet-container {
+    height: 200px;
+  }
+}
