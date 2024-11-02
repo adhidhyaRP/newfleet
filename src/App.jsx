@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 
-import Home from './home';
+import Home from './Home';
 import OwnerDashboard from './OwnerDashboard';
 import MaintenanceAlert from './MaintenanceAlert';
 import TemperatureControl from './TemperatureControl';
