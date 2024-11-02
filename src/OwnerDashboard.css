@@ -1,0 +1,69 @@
+/* Basic styling for the owner's dashboard */
+
+.owner-dashboard {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: linear-gradient(to bottom, #f9f9f9, #f1f1f1);
+  }
+  
+  .dashboard-header {
+    color: #ff7a00;
+    text-align: center;
+    font-size: 1.8em;
+    font-weight: bold;
+    padding: 15px;
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dashboard-section {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+  
+  .card {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .gps-tracking {
+    font-size: 1.5em;
+  }
+  
+  .driver-camera-image {
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 8px;
+  }
+  .navbar-brand{
+    color: #f1f1f1;
+    
+  }
+  .nav-link {
+    color: white !important;
+  }
+  
+  /* Small menu icon in top right for mobile view */
+
+  /* Custom styles for the navbar toggler */
+.custom-toggler {
+  color: white !important;
+  font-size: 0.8rem;  /* Smaller icon size */
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0.25rem 0.5rem; /* Adjust padding for a compact look */
+  border: none;
+  background-color: transparent;
+}
+
+/* White color for all nav links */
+.navbar .nav-link {
+  color: white !important;
+}

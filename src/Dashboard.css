@@ -1,0 +1,64 @@
+/* Basic styling for the dashboard */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.dashboard {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  .dashboard-header {
+    background-color: #1E70D6;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 1.5em;
+    border-radius: 8px;
+  }
+  
+  .info-cards {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .card {
+    background: #f9f9f9;
+    padding: 15px;
+    width: 48%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card h2 {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  
+  .temperature .temperature-value {
+    font-size: 2.5em;
+    color: #FF7A00;
+    margin: 10px 0;
+  }
+  
+  .navigation p {
+    margin: 8px 0;
+  }
+  
+  .start-navigation {
+    background-color: #1E70D6;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .map-container {
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
