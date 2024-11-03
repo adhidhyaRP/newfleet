@@ -16,7 +16,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/data'); // Adjust the API endpoint if needed
+        const response = await axios.get('https://newfleetiq.onrender.com/api/data'); // Adjust the API endpoint if needed
         setData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
