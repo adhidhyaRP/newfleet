@@ -7,23 +7,35 @@ import './OwnerDashboard.css';
 
 const OwnerDashboard = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState({
-    temperature: '',
-    humidity: '',
-    gps: { latitude: 0, longitude: 0 }
-  });
+  const [dataArray, setDataArray] = useState([]); // Array to hold fetched data
+  const [currentIndex, setCurrentIndex] = useState(0); // Index of the currently displayed data
+  const [isDataLoaded, setIsDataLoaded] = useState(false); // Flag for data load state
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://newfleetiq.onrender.com/api/data');
-        setData(response.data);
+        const response = await axios.get('https://uidrnjy424.execute-api.eu-north-1.amazonaws.com/shivam4stage/fleetdata');
+        setDataArray(response.data); // Assume response.data is an array of 29 data items
+        setIsDataLoaded(true);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
+
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (isDataLoaded && dataArray.length > 0) {
+      const intervalId = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % dataArray.length); // Cycle through data
+      }, 1000);
+
+      return () => clearInterval(intervalId); // Clear interval on unmount
+    }
+  }, [isDataLoaded, dataArray.length]);
+
+  const currentData = dataArray[currentIndex] || {}; // Current data item or empty object if data not loaded
 
   const handleLogout = () => {
     navigate("/");
@@ -69,30 +81,38 @@ const OwnerDashboard = () => {
         <div className="dashboard-section">
           <div className="card">
             <h2>Temperature Monitor</h2>
-            <p>Current Temperature: <strong>{data.temperature} °C</strong></p>
+            <p>Current Temperature: <strong>{currentData.temperature ?? 'N/A'} °C</strong></p>
           </div>
           <div className="card">
             <h2>Humidity Monitor</h2>
-            <p>Current Humidity: <strong>{data.humidity} %</strong></p>
+            <p>Current Humidity: <strong>{currentData.humidity ?? 'N/A'} %</strong></p>
           </div>
           <div className="card">
             <h2>GPS Tracking</h2>
-            <p>Latitude: <strong>{data.gps.latitude}</strong></p>
-            <p>Longitude: <strong>{data.gps.longitude}</strong></p>
+            <p>Latitude: <strong>{currentData.latitude ?? 'N/A'}</strong></p>
+            <p>Longitude: <strong>{currentData.longitude ?? 'N/A'}</strong></p>
           </div>
 
           <div className="map-container">
-            <MapContainer center={[data.gps.latitude, data.gps.longitude]} zoom={13} style={{ height: '300px', width: '100%' }}>
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-              />
-              <Marker position={[data.gps.latitude, data.gps.longitude]}>
-                <Popup>
-                  Location: ({data.gps.latitude}, {data.gps.longitude})
-                </Popup>
-              </Marker>
-            </MapContainer>
+            {isDataLoaded && currentData.latitude !== undefined && currentData.longitude !== undefined ? (
+              <MapContainer 
+                center={[currentData.latitude, currentData.longitude]} 
+                zoom={13} 
+                style={{ height: '300px', width: '100%' }}
+              >
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+                />
+                <Marker position={[currentData.latitude, currentData.longitude]}>
+                  <Popup>
+                    Location: ({currentData.latitude}, {currentData.longitude})
+                  </Popup>
+                </Marker>
+              </MapContainer>
+            ) : (
+              <p>Loading map...</p>
+            )}
           </div>
 
           <div className="card">
