@@ -7,25 +7,37 @@ import './Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState({
-    temperature: '',
-    humidity: '',
-    gps: { latitude: 0, longitude: 0 }
-  });
+  const [dataArray, setDataArray] = useState([]); // Store the array of data
+  const [currentIndex, setCurrentIndex] = useState(0); // Track current index in the array
+  const [isDataLoaded, setIsDataLoaded] = useState(false); // Track data loading state
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://newfleetiq.onrender.com/api/data'); // Adjust the API endpoint if needed
-        setData(response.data);
+        const responseData = await axios.get('https://uidrnjy424.execute-api.eu-north-1.amazonaws.com/shivam4stage/fleetdata');
+        console.log('API Response:', responseData.data); // Log response for debugging
+        setDataArray(responseData.data); // Assume responseData.data is an array of data items
+        setIsDataLoaded(true);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    const intervalId = setInterval(fetchData, 5000); // Fetch data every 5 seconds
-    return () => clearInterval(intervalId); // Clean up interval on component unmount
+    fetchData();
   }, []);
+
+  // Update the index every second to cycle through data
+  useEffect(() => {
+    if (isDataLoaded) {
+      const intervalId = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % dataArray.length); // Loop back to the start after the last item
+      }, 1000);
+
+      return () => clearInterval(intervalId); // Clean up interval on component unmount
+    }
+  }, [isDataLoaded, dataArray.length]);
+
+  const currentData = dataArray[currentIndex] || {}; // Get the current data item, or an empty object if data isn't loaded
 
   const handleLogout = () => {
     navigate("/");
@@ -70,31 +82,41 @@ const Home = () => {
         <div className="info-cards">
           <div className="card temperature">
             <h2>Temperature Monitor</h2>
-            <div className="temperature-value">{data.temperature} °C</div>
+            <div className="temperature-value">{currentData.temperature ?? 'N/A'} °C</div>
             <p>Current Temperature</p>
           </div>
           <div className="card humidity">
             <h2>Humidity Monitor</h2>
-            <div className="humidity-value">{data.humidity} %</div>
+            <div className="humidity-value">{currentData.humidity ?? 'N/A'} %</div>
             <p>Current Humidity</p>
           </div>
           <div className="card navigation">
             <h2>GPS Location</h2>
-            <p>Latitude: <strong>{data.gps.latitude}</strong></p>
-            <p>Longitude: <strong>{data.gps.longitude}</strong></p>
+            <p>Latitude: <strong>{currentData.latitude ?? 'N/A'}</strong></p>
+            <p>Longitude: <strong>{currentData.longitude ?? 'N/A'}</strong></p>
           </div>
         </div>
+      </div>
 
-        <MapContainer center={[data.gps.latitude, data.gps.longitude]} zoom={13} style={{ height: '300px', width: '100%' }}>
+      {isDataLoaded && currentData.latitude !== undefined && currentData.longitude !== undefined ? (
+        <MapContainer 
+          center={[currentData.latitude, currentData.longitude]} 
+          zoom={13} 
+          style={{ height: '300px', width: '100%' }}
+        >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
           />
-          <Marker position={[data.gps.latitude, data.gps.longitude]}>
-            <Popup>Current Location</Popup>
+          <Marker position={[currentData.latitude, currentData.longitude]}>
+            <Popup>
+              Location: ({currentData.latitude}, {currentData.longitude})
+            </Popup>
           </Marker>
         </MapContainer>
-      </div>
+      ) : (
+        <p>Loading map...</p> // Placeholder text while waiting for coordinates
+      )}
 
       <section className="features-section" id="features">
         <h2>Key Features</h2>
