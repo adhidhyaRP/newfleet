@@ -1,4 +1,3 @@
-// Import necessary libraries and components
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
@@ -34,24 +33,24 @@ function Login() {
         <h2>Welcome Back!</h2>
         <br />
         <p>Choose your login type below</p>
-        
+
         <form onSubmit={(e) => e.preventDefault()}>
           <label>Username</label>
-          <input 
-            type="text" 
-            placeholder="Enter your username" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
+          <input
+            type="text"
+            placeholder="Enter your username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
-          
+
           <label>Password</label>
-          <input 
-            type="password" 
-            placeholder="Enter your password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
+          <input
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          
+
           <div className="button-group">
             <button type="button" className="owner-button" onClick={() => handleLogin('Owner')}>
               Owner Login
@@ -67,7 +66,7 @@ function Login() {
 }
 
 function App() {
- 
+
   return (
     <Router>
       <Routes>
