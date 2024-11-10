@@ -1,3 +1,4 @@
+
 /* Owner Dashboard Styling */
 .owner-dashboard {
   padding: 20px;
@@ -94,4 +95,36 @@
   .get-started-button {
     width: 100%;
   }
+}
+
+/* Styles for the Truck Selection Dropdown */
+.truck-selection {
+margin: 20px auto;
+text-align: center;
+}
+
+.truck-selection label {
+font-size: 1.2em;
+color: #333;
+margin-right: 10px;
+}
+
+.truck-selection select {
+padding: 8px 12px;
+font-size: 1em;
+color: #333;
+border: 1px solid #ddd;
+border-radius: 5px;
+outline: none;
+background-color: #f8f8f8;
+transition: border-color 0.3s ease;
+}
+
+.truck-selection select:hover {
+border-color: #007bff;
+}
+
+.truck-selection select:focus {
+border-color: #007bff;
+box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
