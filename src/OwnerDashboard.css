@@ -5,6 +5,8 @@
   background: linear-gradient(to bottom, #f9f9f9, #f1f1f1);
 }
 
+
+
 .dashboard-header {
   color: #ff7a00;
   text-align: center;
@@ -22,7 +24,11 @@
   flex-wrap: wrap;
   gap: 20px;
 }
-
+.round-icon {
+  border-radius: 50%;  /* Make the image round */
+  
+  overflow: hidden;    /* Hide overflow to make sure the edges are clipped */
+}
 .card {
   background: #f9f9f9;
   padding: 20px;
