@@ -57,6 +57,13 @@ const Modal = ({ show, onClose, currentData }) => {
         >
           View Truck
         </button>
+        <button
+  className="dashcam-button"
+  onClick={() => navigate('/dashcam', { state: { currentData } })}
+>
+  Dashcam
+</button>
+
       </div>
     </div>
   );
