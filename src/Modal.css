@@ -125,3 +125,17 @@
     padding: 8px 16px;
   }
 }
+.dashcam-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #28a745; /* Green for dashcam */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dashcam-button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
