@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
+import Dashcam from './Dashcam';
 
 import Home from './Home';
 import OwnerDashboard from './OwnerDashboard';
@@ -75,6 +76,7 @@ function App() {
         <Route path="/maintenance-alert" element={<MaintenanceAlert />} />
         <Route path="/temperature-control" element={<TemperatureControl />} />
         <Route path="/cargo" element={<Cargo />} />
+        <Route path="/dashcam" element={<Dashcam />} />
         <Route path="/owner-dashboard" element={<OwnerDashboard />} />
       </Routes>
     </Router>
