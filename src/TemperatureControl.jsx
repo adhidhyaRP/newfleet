@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
 import axios from "axios";
 import './TemperatureControl.css';
 import './MaintenanceAlert.css';
 import 'leaflet/dist/leaflet.css';
 
-const targetLocation = { lat: 17.6868, lng: 83.2185 }; // Vizag
+const targetLocation = { lat: 16.6868, lng: 82.2185 }; // Vizag
 const apiKey = '5b3ce3597851110001cf624836f399a8acab4bd8ad7e4264e343dba3'; // Replace with your API key
 
 function TemperatureControl() {
   const location = useLocation();
+  const navigate = useNavigate(); // Initialize navigate
   const [setTemp, setSetTemp] = useState(""); // State for setting temperature
   const [route, setRoute] = useState(null);    // State for storing route data
   const currentData = location.state?.currentData ?? {}; // Get currentData from location state
@@ -60,6 +61,7 @@ function TemperatureControl() {
 
   return (
     <div className="temperature-control-container">
+        <button className="back-button" onClick={() => navigate(-1)}>Back</button>
       <div className="map-container">
         <h2>Truck Route</h2>
         <MapContainer center={currentLocation} zoom={6} style={{ width: '100%', height: '700px' }}>
