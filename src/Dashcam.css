@@ -13,6 +13,18 @@
     font-family: 'Arial', sans-serif;
     transition: box-shadow 0.3s ease-in-out;
   }
+  .back-button {
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .back-button:hover {
+    background-color: #0056b3;
+  }
   
   /* Header for Dashcam Section */
   .dashcam-container h1 {
