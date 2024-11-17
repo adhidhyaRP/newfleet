@@ -6,6 +6,19 @@
   justify-content: center;
   padding: 20px;
 }
+.back-button {
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.back-button:hover {
+  background-color: #0056b3;
+}
+
 
 /* Map container */
 .map-container {
