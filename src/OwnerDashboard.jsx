@@ -90,9 +90,9 @@ const OwnerDashboard = () => {
       {/* Map Container */}
       {isDataLoaded && (
         <MapContainer
-          center={[0, 0]}  // Default center if no truck is selected
-          zoom={2}  // Zoom out to view all trucks
-          style={{ height: '500px', width: '100%' }}
+          center={[19.567,72.778]}  // Default center if no truck is selected
+          zoom={5.5}  // Zoom out to view all trucks
+          style={{ height: '600px', width: '100%' }}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
