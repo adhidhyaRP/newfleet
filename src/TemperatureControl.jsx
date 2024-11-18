@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
-import L from 'leaflet';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-import './TemperatureControl.css';
-import './MaintenanceAlert.css';
-import 'leaflet/dist/leaflet.css';
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import "./TemperatureControl.css";
+import "./MaintenanceAlert.css";
 
-// Fix marker icon issue
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
+// Custom marker icon using URL
+const customMarkerIcon = new L.Icon({
+  iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
 });
 
 const targetLocation = { lat: 16.6868, lng: 82.2185 }; // Vizag
@@ -29,34 +30,34 @@ function TemperatureControl() {
   };
 
   const handleSetTemp = () => {
-    alert(`Set temperature to ${setTemp}°C for Truck ID ${currentData.truck_id ?? 'N/A'}`);
+    alert(`Set temperature to ${setTemp}°C for Truck ID ${currentData.truck_id ?? "N/A"}`);
   };
 
   return (
     <div className="temperature-control-container">
       <button className="back-button" onClick={() => navigate(-1)}>Back</button>
-      
+
       {/* Map Section */}
       <div className="map-container">
         <h2>Truck Route</h2>
-        <MapContainer center={currentLocation} zoom={6} style={{ width: '100%', height: '700px' }}>
+        <MapContainer center={currentLocation} zoom={6} style={{ width: "100%", height: "700px" }}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          
+
           {/* Marker for Current Location */}
-          <Marker position={currentLocation}>
+          <Marker position={currentLocation} icon={customMarkerIcon}>
             <Popup>Current Location (Truck)</Popup>
           </Marker>
-          
+
           {/* Marker for Target Location */}
-          <Marker position={targetLocation}>
+          <Marker position={targetLocation} icon={customMarkerIcon}>
             <Popup>Destination (Vizag)</Popup>
           </Marker>
-          
+
           {/* Straight Line between Current Location and Target Location */}
           <Polyline
             positions={[
               [currentLocation.lat, currentLocation.lng], // Starting point
-              [targetLocation.lat, targetLocation.lng],   // Destination
+              [targetLocation.lat, targetLocation.lng], // Destination
             ]}
             color="blue"
             weight={5}
@@ -64,7 +65,7 @@ function TemperatureControl() {
           />
         </MapContainer>
       </div>
-    
+
       {/* Temperature Monitoring Section */}
       <div className="temperature-monitoring">
         <h2>Temperature Monitoring & Control</h2>
@@ -102,4 +103,5 @@ function TemperatureControl() {
     </div>
   );
 }
+
 export default TemperatureControl;
