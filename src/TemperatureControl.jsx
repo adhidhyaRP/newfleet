@@ -1,100 +1,78 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
-import axios from "axios";
+import L from 'leaflet';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import './TemperatureControl.css';
 import './MaintenanceAlert.css';
 import 'leaflet/dist/leaflet.css';
 
+// Fix marker icon issue
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
 const targetLocation = { lat: 16.6868, lng: 82.2185 }; // Vizag
-const apiKey = '5b3ce3597851110001cf624836f399a8acab4bd8ad7e4264e343dba3'; // Replace with your API key
 
 function TemperatureControl() {
   const location = useLocation();
-  const navigate = useNavigate(); // Initialize navigate
-  const [setTemp, setSetTemp] = useState(""); // State for setting temperature
-  const [route, setRoute] = useState(null);    // State for storing route data
-  const currentData = location.state?.currentData ?? {}; // Get currentData from location state
+  const navigate = useNavigate();
+  const [setTemp, setSetTemp] = useState("");
+  const currentData = location.state?.currentData ?? {};
 
-  // Define currentLocation based on truck's location data in `currentData`
   const currentLocation = {
-    lat: currentData.latitude ?? 19.0760, // Default latitude if none is provided
-    lng: currentData.longitude ?? 72.8777, // Default longitude if none is provided
+    lat: currentData.latitude ?? 19.0760, // Default to Mumbai if no data is provided
+    lng: currentData.longitude ?? 72.8777,
   };
 
-  // Function to handle temperature setting action
   const handleSetTemp = () => {
     alert(`Set temperature to ${setTemp}°C for Truck ID ${currentData.truck_id ?? 'N/A'}`);
   };
 
-  // Fetch the route from current location to target location
-  useEffect(() => {
-    // console.log(currentLocation.lat)
-    if (currentData.latitude && currentData.longitude) {
-      // if (currentLocation.lat && currentLocation.lng) {
-      const fetchRoute = async () => {
-        try {
-          const response = await axios.post(
-            `https://api.openrouteservice.org/v2/directions/driving-car`,
-            {
-              coordinates: [
-                [currentLocation.lng, currentLocation.lat], // Starting point (current location)
-                [targetLocation.lng, targetLocation.lat]    // Destination (Vizag)
-              ]
-            },
-            {
-              headers: {
-                Authorization: apiKey,
-                "Content-Type": "application/json"
-              }
-            }
-          );
-          setRoute(response.data); // Store route data in state
-          console.log(response.data);
-        } catch (error) {
-          console.error("Error fetching route:", error); // Log errors for debugging
-        }
-      };
-      fetchRoute();
-    }
-  }, [currentData]); // Refetch route when `currentData` changes
-
   return (
     <div className="temperature-control-container">
-        <button className="back-button" onClick={() => navigate(-1)}>Back</button>
+      <button className="back-button" onClick={() => navigate(-1)}>Back</button>
+      
+      {/* Map Section */}
       <div className="map-container">
         <h2>Truck Route</h2>
         <MapContainer center={currentLocation} zoom={6} style={{ width: '100%', height: '700px' }}>
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          {/* Marker for current location */}
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          
+          {/* Marker for Current Location */}
           <Marker position={currentLocation}>
             <Popup>Current Location (Truck)</Popup>
           </Marker>
-          {/* Marker for target location */}
+          
+          {/* Marker for Target Location */}
           <Marker position={targetLocation}>
             <Popup>Destination (Vizag)</Popup>
           </Marker>
-          {/* Route Polyline if route data is available */}
-          {route && route.features && (
-            <Polyline
-              positions={route.features[0].geometry.coordinates.map(([lng, lat]) => [lat, lng])}
-              color="blue"
-              weight={5}
-              opacity={0.7}
-            />
-          )}
+          
+          {/* Straight Line between Current Location and Target Location */}
+          <Polyline
+            positions={[
+              [currentLocation.lat, currentLocation.lng], // Starting point
+              [targetLocation.lat, targetLocation.lng],   // Destination
+            ]}
+            color="blue"
+            weight={5}
+            opacity={0.7}
+          />
         </MapContainer>
       </div>
-
-      {/* Temperature Monitoring & Control Section */}
+    
+      {/* Temperature Monitoring Section */}
       <div className="temperature-monitoring">
         <h2>Temperature Monitoring & Control</h2>
         <div className="truck-card">
-          <h3>Truck ID: {currentData.truck_id ?? 'N/A'}</h3>
-          <p><strong>Current Temperature:</strong> {currentData.temperature ?? 'N/A'} °C</p>
+          <h3>Truck ID: {currentData.truck_id ?? "N/A"}</h3>
+          <p><strong>Current Temperature:</strong> {currentData.temperature ?? "N/A"} °C</p>
           <p><strong>Default Temperature Range:</strong> 10-15°C</p>
+          <p><strong>Alert:</strong> {currentData.action ?? "No alerts"}</p>
           <div className="set-temp">
             <input
               type="number"
@@ -107,7 +85,7 @@ function TemperatureControl() {
         </div>
       </div>
 
-      {/* Maintenance Schedule and Predictive Analytics Section */}
+      {/* Maintenance Section */}
       <div className="maintenance-alert">
         <h3>Maintenance Schedule</h3>
         <div className="upcoming-maintenance">
@@ -117,11 +95,11 @@ function TemperatureControl() {
         </div>
         <div className="predictive-analytics">
           <h4>Predictive Analytics</h4>
-          <p>Probability of Maintenance: 75%</p>
+          <p><strong>Probability of Maintenance:</strong> 75%</p>
+          <p><strong>Action:</strong> {currentData.maintenance_action ?? "No actions required"}</p>
         </div>
       </div>
     </div>
   );
 }
-
 export default TemperatureControl;
