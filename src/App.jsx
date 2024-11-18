@@ -54,7 +54,7 @@ function Login() {
 
           <div className="button-group">
             <button type="button" className="owner-button" onClick={() => handleLogin('Owner')}>
-              Owner Login
+               Login
             </button>
           
           </div>
