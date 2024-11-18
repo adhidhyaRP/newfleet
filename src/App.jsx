@@ -56,9 +56,7 @@ function Login() {
             <button type="button" className="owner-button" onClick={() => handleLogin('Owner')}>
               Owner Login
             </button>
-            <button type="button" className="driver-button" onClick={() => handleLogin('Driver')}>
-              Driver Login
-            </button>
+          
           </div>
         </form>
       </div>
