@@ -8,19 +8,68 @@ const Modal = ({ show, onClose, currentData }) => {
 
   const [location, setLocation] = useState('Fetching location...');
 
-  // Hardcoded destinations for each truck ID
-  const destinations = {
-    1: 'Mumbai, Maharashtra',
-    2: 'Delhi, Delhi',
-    3: 'Kolkata, West Bengal',
-    4: 'Chennai, Tamil Nadu',
-    5: 'Bangalore, Karnataka',
+  // Hardcoded details for each truck ID
+  const truckDetails = {
+    1: {
+      destination: 'Kohinoor Mill Compound, Lower Parel, Mumbai, Maharashtra 400013, India',
+      driverId: 'D001',
+      driverName: 'Ramesh Kumar',
+      truckType: '18-Wheeler',
+      goodsType: 'Perishable Food Items',
+      cargoWeight: '15,000 kg',
+      capacity: '20,000 kg',
+    },
+    2: {
+      destination: 'M Block, Connaught Place, Delhi 110001, India',
+      driverId: 'D002',
+      driverName: 'Suresh Gupta',
+      truckType: 'Flatbed Truck',
+      goodsType: 'Consumer Electronics',
+      cargoWeight: '10,500 kg',
+      capacity: '15,000 kg',
+    },
+    3: {
+      destination: 'Salt Lake Sector V, Bidhannagar, Kolkata, West Bengal 700091, India',
+      driverId: 'D003',
+      driverName: 'Amit Roy',
+      truckType: 'Refrigerated Truck',
+      goodsType: 'Textiles and Garments',
+      cargoWeight: '9,000 kg',
+      capacity: '12,000 kg',
+    },
+    4: {
+      destination: 'Guindy Industrial Area, Guindy, Chennai, Tamil Nadu 600032, India',
+      driverId: 'D004',
+      driverName: 'Vikram Iyer',
+      truckType: 'Tanker Truck',
+      goodsType: 'Chemicals and Pharmaceuticals',
+      cargoWeight: '20,000 kg',
+      capacity: '25,000 kg',
+    },
+    5: {
+      destination: 'Electronic City Phase 1, Hosur Road, Bangalore, Karnataka 560100, India',
+      driverId: 'D005',
+      driverName: 'Manoj Singh',
+      truckType: 'Box Truck',
+      goodsType: 'Office Furniture',
+      cargoWeight: '7,500 kg',
+      capacity: '10,000 kg',
+    },
   };
 
   const latitude = currentData?.latitude;
   const longitude = currentData?.longitude;
   const truckId = currentData?.truck_id;
-  const destination = destinations[truckId] || 'Unknown Destination';
+
+  const {
+    destination = 'Unknown Destination',
+    driverId = 'Unknown Driver ID',
+    driverName = 'Unknown Driver Name',
+    truckType = 'Unknown Truck Type',
+    goodsType = 'Unknown Goods Type',
+    cargoWeight = 'Unknown Weight',
+    capacity = 'Unknown Capacity',
+  } = truckDetails[truckId] || {};
 
   useEffect(() => {
     if (latitude && longitude) {
@@ -42,7 +91,7 @@ const Modal = ({ show, onClose, currentData }) => {
         setLocation('Location not found');
       }
     } catch (error) {
-      console.error("Error fetching location:", error);
+      console.error('Error fetching location:', error);
       setLocation('Error fetching location');
     }
   };
@@ -50,7 +99,9 @@ const Modal = ({ show, onClose, currentData }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <button className="close-button" onClick={onClose}>X</button>
+        <button className="close-button" onClick={onClose}>
+          X
+        </button>
 
         <div className="truck-image-container">
           <img
@@ -61,13 +112,18 @@ const Modal = ({ show, onClose, currentData }) => {
         </div>
 
         <div className="truck-details">
-          <h3 className="detailsmodal">Truck Driver: Ramesh Kumar</h3>
-          <h3 className="detailsmodal">Destination: {destination}</h3>
-          <h3 className="detailsmodal">Current Location: {location}</h3>
-          <span className="detailsmodal">
+        <span className="detailsmodal">
             Current Temperature: {currentData.temperature ?? 'N/A'} °C
           </span>
-          <h3 className="detailsmodal">Goods Type: Food</h3>
+          <h3 className="detailsmodal">Driver ID: {driverId}</h3>
+          <h3 className="detailsmodal">Truck Driver: {driverName}</h3>
+          <h3 className="detailsmodal">Truck Type: {truckType}</h3>
+          <h3 className="detailsmodal">Goods Type: {goodsType}</h3>
+          <h3 className="detailsmodal">Cargo Weight: {cargoWeight}</h3>
+          
+          <h3 className="detailsmodal">Destination: {destination}</h3>
+          <h3 className="detailsmodal">Current Location: {location}</h3>
+         
         </div>
 
         <button
