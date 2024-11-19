@@ -79,12 +79,12 @@ const OwnerDashboard = () => {
       <section className="hero-section">
         <h1>Optimize Your Fleet with Smart Solutions</h1>
         <p>Real-time tracking, maintenance scheduling, and fuel efficiency monitoring.</p>
-        <button className="get-started-button">Get Started</button>
+       
       </section>
 
       {/* GPS Location Dashboard */}
       <div className="dashboard">
-        <header className="dashboard-header">Dashboard</header>
+        <header className="dashboard-header">Assets</header>
       </div>
 
       {/* Map Container */}
