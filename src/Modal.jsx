@@ -1,148 +1,146 @@
-/* Overlay for the modal */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
+import React, { useState, useEffect } from 'react';
+import './Modal.css';
+import { useNavigate } from 'react-router-dom';
 
-/* Main content area of the modal */
-.modal-content {
-  background-color: white;
-  width: 90%;
-  max-width: 600px;
-  max-height: 80vh; /* Limit the maximum height of the popup */
-  overflow-y: auto; /* Enable vertical scrolling */
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  position: relative;
-  text-align: center;
-}
+const Modal = ({ show, onClose, currentData }) => {
+  if (!show) return null;
+  const navigate = useNavigate();
 
-/* Close button style */
-.close-button {
-  position: absolute;
-  color: black;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
-  font-weight: bold;
-  cursor: pointer;
-}
+  const [location, setLocation] = useState('Fetching location...');
 
-/* Container for the truck image */
-.truck-image-container {
-  margin: 20px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
+  // Hardcoded details for each truck ID
+  const truckDetails = {
+    1: {
+      destination: 'Kohinoor Mill Compound, Lower Parel, Mumbai, Maharashtra 400013, India',
+      driverId: 'D001',
+      driverName: 'Ramesh Kumar',
+      truckType: '18-Wheeler',
+      goodsType: 'Perishable Food Items',
+      cargoWeight: '15,000 kg',
+      capacity: '20,000 kg',
+    },
+    2: {
+      destination: 'M Block, Connaught Place, Delhi 110001, India',
+      driverId: 'D002',
+      driverName: 'Suresh Gupta',
+      truckType: 'Flatbed Truck',
+      goodsType: 'Consumer Electronics',
+      cargoWeight: '10,500 kg',
+      capacity: '15,000 kg',
+    },
+    3: {
+      destination: 'Salt Lake Sector V, Bidhannagar, Kolkata, West Bengal 700091, India',
+      driverId: 'D003',
+      driverName: 'Amit Roy',
+      truckType: 'Refrigerated Truck',
+      goodsType: 'Textiles and Garments',
+      cargoWeight: '9,000 kg',
+      capacity: '12,000 kg',
+    },
+    4: {
+      destination: 'Guindy Industrial Area, Guindy, Chennai, Tamil Nadu 600032, India',
+      driverId: 'D004',
+      driverName: 'Vikram Iyer',
+      truckType: 'Tanker Truck',
+      goodsType: 'Chemicals and Pharmaceuticals',
+      cargoWeight: '20,000 kg',
+      capacity: '25,000 kg',
+    },
+    5: {
+      destination: 'Electronic City Phase 1, Hosur Road, Bangalore, Karnataka 560100, India',
+      driverId: 'D005',
+      driverName: 'Manoj Singh',
+      truckType: 'Box Truck',
+      goodsType: 'Office Furniture',
+      cargoWeight: '7,500 kg',
+      capacity: '10,000 kg',
+    },
+  };
 
-/* Style for the truck image */
-.truck-image {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  max-height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+  const latitude = currentData?.latitude;
+  const longitude = currentData?.longitude;
+  const truckId = currentData?.truck_id;
 
-/* Styling for truck details section */
-.truck-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Two columns for alignment */
-  gap: 10px;
-  text-align: left; /* Align text to the left for clarity */
-  width: 100%;
-  margin-top: 20px;
-}
+  const {
+    destination = 'Unknown Destination',
+    driverId = 'Unknown Driver ID',
+    driverName = 'Unknown Driver Name',
+    truckType = 'Unknown Truck Type',
+    goodsType = 'Unknown Goods Type',
+    cargoWeight = 'Unknown Weight',
+    capacity = 'Unknown Capacity',
+  } = truckDetails[truckId] || {};
 
-.truck-details h3,
-.truck-details span {
-  font-size: 1rem;
-  color: #333;
-  margin: 0;
-}
+  useEffect(() => {
+    if (latitude && longitude) {
+      fetchLocationFromCoordinates(latitude, longitude);
+    }
+  }, [latitude, longitude]);
 
-.detailsmodal {
-  font-weight: bold;
-  color: rgb(5, 65, 42);
-}
+  // Function to call Nominatim API for reverse geocoding
+  const fetchLocationFromCoordinates = async (lat, lng) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+      );
+      const data = await response.json();
 
-.temperature-value {
-  color: #0288d1; /* Blue for temperature */
-  font-weight: bold;
-  font-size: 1.2em;
-}
+      if (data && data.display_name) {
+        setLocation(data.display_name);
+      } else {
+        setLocation('Location not found');
+      }
+    } catch (error) {
+      console.error('Error fetching location:', error);
+      setLocation('Error fetching location');
+    }
+  };
 
-/* Title for truck details section */
-.modal-content h2 {
-  color: #db4343;
-  font-size: 1.6em;
-  margin-bottom: 15px;
-  font-weight: bold;
-}
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <button className="close-button" onClick={onClose}>
+          X
+        </button>
 
-/* Button styles */
-.view-truck-button,
-.dashcam-button {
-  margin-top: 15px;
-  padding: 12px 24px;
-  font-size: 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+        <div className="truck-image-container">
+          <img
+            src="https://shots.codepen.io/username/pen/MWeeWpE-800.jpg?version=1603006809"
+            alt="Truck"
+            className="truck-image"
+          />
+        </div>
 
-.view-truck-button {
-  background-color: #007bff; /* Blue */
-  color: #fff;
-}
+        <div className="truck-details">
+        <span className="detailsmodal">
+            Current Temperature: {currentData.temperature ?? 'N/A'} °C
+          </span>
+          <h3 className="detailsmodal">Driver ID: {driverId}</h3>
+          <h3 className="detailsmodal">Truck Driver: {driverName}</h3>
+          <h3 className="detailsmodal">Truck Type: {truckType}</h3>
+          <h3 className="detailsmodal">Goods Type: {goodsType}</h3>
+          <h3 className="detailsmodal">Cargo Weight: {cargoWeight}</h3>
+          
+          <h3 className="detailsmodal">Destination: {destination}</h3>
+          <h3 className="detailsmodal">Current Location: {location}</h3>
+         
+        </div>
 
-.view-truck-button:hover {
-  background-color: #0056b3;
-}
+        <button
+          className="view-truck-button"
+          onClick={() => navigate('/temperature-control', { state: { currentData } })}
+        >
+          View Truck
+        </button>
+        <button
+          className="dashcam-button"
+          onClick={() => navigate('/dashcam', { state: { currentData } })}
+        >
+          Dashcam
+        </button>
+      </div>
+    </div>
+  );
+};
 
-.dashcam-button {
-  background-color: #28a745; /* Green */
-  color: #fff;
-}
-
-.dashcam-button:hover {
-  background-color: #218838;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-  .modal-content {
-    padding: 15px;
-  }
-
-  .truck-details {
-    grid-template-columns: 1fr; /* Single column on small screens */
-    text-align: center; /* Center-align for small screens */
-  }
-
-  .view-truck-button,
-  .dashcam-button {
-    font-size: 14px;
-    padding: 10px 16px;
-  }
-
-  h2 {
-    font-size: 1.4em;
-  }
-}
+export default Modal;
