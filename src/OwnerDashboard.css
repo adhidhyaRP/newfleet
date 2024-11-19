@@ -1,68 +1,132 @@
-
-/* Owner Dashboard Styling */
-.owner-dashboard {
-  padding: 20px;
-  background: linear-gradient(to bottom, #f9f9f9, #f1f1f1);
+/* General Styling */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  background-color: #f9f9f9;
+  line-height: 1.6;
 }
 
+.owner-dashboard {
+  padding: 20px;
+  background: linear-gradient(to bottom, #ffffff, #f9f9f9);
+}
 
-
+/* Dashboard Header */
 .dashboard-header {
   color: #ff7a00;
   text-align: center;
-  font-size: 1.8em;
+  font-size: 1.8rem;
   font-weight: bold;
   padding: 15px;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 12px;
   margin-bottom: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Dashboard Section */
 .dashboard-section {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 }
-.round-icon {
-  border-radius: 50%;  /* Make the image round */
-  
-  overflow: hidden;    /* Hide overflow to make sure the edges are clipped */
-}
-.card {
-  background: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  flex: 1 1 45%;
-}
 
-.map-container {
-  width: 100%;
-  margin-top: 20px;
-  border-radius: 8px;
+.round-icon {
+  border-radius: 50%;
   overflow: hidden;
 }
 
+/* Cards */
+.card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  flex: 1 1 45%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Map Container */
+.map-container {
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Driver Camera Image */
 .driver-camera-image {
   margin-top: 10px;
   width: 100%;
-  border-radius: 8px;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
 }
 
+.driver-camera-image:hover {
+  transform: scale(1.05);
+}
+
+/* Navbar */
 .navbar-brand,
 .nav-link {
   color: white !important;
 }
 
+/* Hero Section */
 .hero-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 40px;
-  background-color: #ff7a00;
+  height: 400px;
+  background-image: url('https://media.istockphoto.com/id/695675608/photo/aerial-view-of-shanghai-highway.jpg?s=612x612&w=0&k=20&c=w4Bec8JOc6rQHy_09Y6HqnujA5p_oepKQeVXgvYNaKE=');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   color: white;
+  overflow: hidden;
 }
 
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.hero-section h1,
+.hero-section p {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+
+
+/* Features Section */
 .features-section {
   padding: 40px 20px;
   background-color: #f1f1f1;
@@ -77,21 +141,50 @@
 .feature-card {
   background: white;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 12px;
   flex: 1 1 45%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.get-started-button {
-  background-color: #ff7a00;
-  color: white;
-  padding: 10px 20px;
-  border: none;
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Dropdown Styling */
+.truck-selection {
+  margin: 20px auto;
+  text-align: center;
+}
+
+.truck-selection label {
+  font-size: 1.2rem;
+  color: #333;
+  margin-right: 10px;
+}
+
+.truck-selection select {
+  padding: 10px 15px;
+  font-size: 1rem;
+  color: #333;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  font-size: 1em;
-  cursor: pointer;
+  outline: none;
+  background-color: #f8f8f8;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.truck-selection select:hover {
+  border-color: #007bff;
+}
+
+.truck-selection select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Responsive Styling */
 @media (max-width: 768px) {
   .dashboard-section,
   .features-grid {
@@ -101,36 +194,12 @@
   .get-started-button {
     width: 100%;
   }
-}
 
-/* Styles for the Truck Selection Dropdown */
-.truck-selection {
-margin: 20px auto;
-text-align: center;
-}
+  .hero-section h1 {
+    font-size: 2rem;
+  }
 
-.truck-selection label {
-font-size: 1.2em;
-color: #333;
-margin-right: 10px;
-}
-
-.truck-selection select {
-padding: 8px 12px;
-font-size: 1em;
-color: #333;
-border: 1px solid #ddd;
-border-radius: 5px;
-outline: none;
-background-color: #f8f8f8;
-transition: border-color 0.3s ease;
-}
-
-.truck-selection select:hover {
-border-color: #007bff;
-}
-
-.truck-selection select:focus {
-border-color: #007bff;
-box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  .hero-section p {
+    font-size: 1rem;
+  }
 }
