@@ -6,7 +6,6 @@ import './TemperatureControl.css';
 import './MaintenanceAlert.css';
 import 'leaflet/dist/leaflet.css';
 
-// Custom marker icon using URL
 const customMarkerIcon = new L.Icon({
   iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
@@ -40,6 +39,31 @@ function TemperatureControl() {
 
   const handleSetTemp = () => {
     alert(`Set temperature to ${setTemp}°C for Truck ID ${truckId}`);
+  };
+
+  // Hardcoded maintenance logic based on unique ideas
+  const calculateMaintenanceAlert = () => {
+    const temperature = currentData.temperature ?? 25; // Default temperature
+    const daysSinceLastService = currentData.lastServiceDays ?? 60; // Default days since service
+    const sensorWarning = currentData.sensorWarning;
+
+    if (sensorWarning) {
+      return `Critical Alert: ${sensorWarning}`;
+    }
+
+    if (temperature > 40) {
+      return "Warning: High operating temperature detected. Check engine cooling system.";
+    }
+
+    if (daysSinceLastService > 180) {
+      return "Service Alert: Last maintenance was over 6 months ago.";
+    }
+
+    if (daysSinceLastService > 90) {
+      return "Reminder: Maintenance due soon (Last service 3 months ago).";
+    }
+
+    return "No maintenance required at this time. All systems are normal.";
   };
 
   return (
@@ -104,8 +128,8 @@ function TemperatureControl() {
           <p>Tire Rotation: 10 days</p>
         </div>
         <div className="predictive-analytics">
-          <h4>Predictive Analytics</h4>
-          <p><strong>Probability of Maintenance:</strong> 75%</p>
+          <h4>Predictive Maintenance Alerts</h4>
+          <p><strong>Maintenance Alert:</strong> {calculateMaintenanceAlert()}</p>
           <p><strong>Action:</strong> {currentData.maintenance_action ?? "No actions required"}</p>
         </div>
       </div>
