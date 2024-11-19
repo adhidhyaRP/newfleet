@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-import "./TemperatureControl.css";
-import "./MaintenanceAlert.css";
+import L from 'leaflet';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import './TemperatureControl.css';
+import './MaintenanceAlert.css';
+import 'leaflet/dist/leaflet.css';
 
-// Custom marker icon using URL
-const customMarkerIcon = new L.Icon({
-  iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
+// Fix marker icon issue
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
 });
 
-const targetLocation = { lat: 16.6868, lng: 82.2185 }; // Vizag
+const destinations = {
+  1: { lat: 19.0760, lng: 72.8777, name: 'Mumbai, Maharashtra' },
+  2: { lat: 28.7041, lng: 77.1025, name: 'Delhi, Delhi' },
+  3: { lat: 22.5726, lng: 88.3639, name: 'Kolkata, West Bengal' },
+  4: { lat: 13.0827, lng: 80.2707, name: 'Chennai, Tamil Nadu' },
+  5: { lat: 12.9716, lng: 77.5946, name: 'Bangalore, Karnataka' },
+};
 
 function TemperatureControl() {
   const location = useLocation();
@@ -29,8 +34,11 @@ function TemperatureControl() {
     lng: currentData.longitude ?? 72.8777,
   };
 
+  const truckId = currentData.truck_id ?? 1; // Default to Truck ID 1 if no data is provided
+  const destination = destinations[truckId];
+
   const handleSetTemp = () => {
-    alert(`Set temperature to ${setTemp}°C for Truck ID ${currentData.truck_id ?? "N/A"}`);
+    alert(`Set temperature to ${setTemp}°C for Truck ID ${truckId}`);
   };
 
   return (
@@ -40,24 +48,24 @@ function TemperatureControl() {
       {/* Map Section */}
       <div className="map-container">
         <h2>Truck Route</h2>
-        <MapContainer center={currentLocation} zoom={6} style={{ width: "100%", height: "700px" }}>
+        <MapContainer center={currentLocation} zoom={6} style={{ width: '100%', height: '700px' }}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
           {/* Marker for Current Location */}
-          <Marker position={currentLocation} icon={customMarkerIcon}>
+          <Marker position={currentLocation}>
             <Popup>Current Location (Truck)</Popup>
           </Marker>
 
-          {/* Marker for Target Location */}
-          <Marker position={targetLocation} icon={customMarkerIcon}>
-            <Popup>Destination (Vizag)</Popup>
+          {/* Marker for Destination Location */}
+          <Marker position={{ lat: destination.lat, lng: destination.lng }}>
+            <Popup>Destination: {destination.name}</Popup>
           </Marker>
 
-          {/* Straight Line between Current Location and Target Location */}
+          {/* Straight Line between Current Location and Destination Location */}
           <Polyline
             positions={[
               [currentLocation.lat, currentLocation.lng], // Starting point
-              [targetLocation.lat, targetLocation.lng], // Destination
+              [destination.lat, destination.lng],        // Destination
             ]}
             color="blue"
             weight={5}
@@ -70,7 +78,7 @@ function TemperatureControl() {
       <div className="temperature-monitoring">
         <h2>Temperature Monitoring & Control</h2>
         <div className="truck-card">
-          <h3>Truck ID: {currentData.truck_id ?? "N/A"}</h3>
+          <h3>Truck ID: {truckId}</h3>
           <p><strong>Current Temperature:</strong> {currentData.temperature ?? "N/A"} °C</p>
           <p><strong>Default Temperature Range:</strong> 10-15°C</p>
           <p><strong>Alert:</strong> {currentData.action ?? "No alerts"}</p>
