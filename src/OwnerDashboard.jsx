@@ -7,6 +7,7 @@ import 'leaflet/dist/leaflet.css';
 import './Home.css';
 import "./OwnerDashboard.css";
 import Modal from './Modal';
+import { FaBars } from 'react-icons/fa'; // Install react-icons if not already installed
 
 // Define the truck icon (round with a truck image)
 const truckIcon = new L.Icon({
@@ -18,6 +19,7 @@ const truckIcon = new L.Icon({
 
 const OwnerDashboard = () => {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
   const [currentData, setCurrentData] = useState({});
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -43,9 +45,9 @@ const OwnerDashboard = () => {
     // Clear interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
-
+  
   const handleLogout = () => {
-    navigate("/");
+    navigate('/');
   };
 
   const handleMarkerClick = (truckId) => {
@@ -61,19 +63,26 @@ const OwnerDashboard = () => {
   return (
     <div className="app">
       {/* Navigation Bar */}
-      <nav className="navbar navbar-expand-lg navbar-light">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/" style={{ color: 'white' }}>Fleet IQ</Link>
-          <button className="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">FLEET IQ</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+        <button className="logout-button" onClick={handleLogout}>
+            Logout
           </button>
-          <div className="collapse navbar-collapse" id="navbarContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <button className="btn btn-outline-danger ms-auto" onClick={handleLogout}>Logout</button>
-            </ul>
-          </div>
-        </div>
-      </nav>
+        </li>
+       
+       
+      </ul>
+    </div>
+  </div>
+</nav>
+
 
       {/* Hero Section */}
       <section className="hero-section">
@@ -83,16 +92,16 @@ const OwnerDashboard = () => {
       </section>
 
       {/* GPS Location Dashboard */}
-      <div className="dashboard">
-        <header className="dashboard-header">Assets</header>
+      <div className='assets'>
+          <h2>ASSETS</h2>
       </div>
 
       {/* Map Container */}
       {isDataLoaded && (
         <MapContainer
           center={[19.567,72.778]}  // Default center if no truck is selected
-          zoom={5.5}  // Zoom out to view all trucks
-          style={{ height: '600px', width: '100%' }}
+          zoom={5}  // Zoom out to view all trucks
+          style={{ height: '450px', width: '100%' }}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
