@@ -130,7 +130,7 @@ function TemperatureControl() {
         <div className="predictive-analytics">
           <h4>Predictive Maintenance Alerts</h4>
           <p><strong>Maintenance Alert:</strong> {calculateMaintenanceAlert()}</p>
-          <p><strong>Action:</strong> {currentData.maintenance_action ?? "No actions required"}</p>
+          
         </div>
       </div>
     </div>
