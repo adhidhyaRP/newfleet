@@ -51,7 +51,7 @@ function TemperatureControl() {
       return `Critical Alert: ${sensorWarning}`;
     }
 
-    if (temperature > 40) {
+    if (temperature > 35) {
       return "Warning: High operating temperature detected. Check engine cooling system.";
     }
 
@@ -59,7 +59,7 @@ function TemperatureControl() {
       return "Service Alert: Last maintenance was over 6 months ago.";
     }
 
-    if (daysSinceLastService > 90) {
+    if (temperature < 27) {
       return "Reminder: Maintenance due soon (Last service 3 months ago).";
     }
 
