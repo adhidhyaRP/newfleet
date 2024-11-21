@@ -93,7 +93,7 @@ const OwnerDashboard = () => {
 
       {/* GPS Location Dashboard */}
       <div className='assets'>
-          <h2>ASSETS</h2>
+          <h2>TRUCKS</h2>
       </div>
 
       {/* Map Container */}
